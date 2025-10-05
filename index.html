@@ -1,0 +1,830 @@
+<script>
+        // Show content immediately
+        document.getElementById('main-content').classList.remove('hidden');
+        document.getElementById('loading-screen').classList.add('hidden');
+    </script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Magendra Prasad | Game Developer Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Orbitron:wght@400;700&family=Ubuntu:wght@300;400;700&display=swap');
+        
+        :root {
+            --primary: #6c5ce7;
+            --secondary: #00cec9;
+            --accent: #fd79a8;
+            --dark: #2d3436;
+            --light: #dfe6e9;
+        }
+        
+        body {
+            font-family: 'Ubuntu', sans-serif;
+            background-color: #0f0f1a;
+            color: var(--light);
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(108, 92, 231, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(0, 206, 201, 0.1) 0%, transparent 20%);
+        }
+        
+        h1, h2, h3 {
+            font-family: 'Orbitron', sans-serif;
+        }
+        
+        .pixel-font {
+            font-family: 'Press Start 2P', cursive;
+        }
+        
+        .glow-text {
+            text-shadow: 0 0 10px rgba(108, 92, 231, 0.7);
+        }
+        
+        .glow-box {
+            box-shadow: 0 0 15px rgba(108, 92, 231, 0.5);
+        }
+        
+        .skill-bar {
+            height: 10px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 5px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .skill-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(255, 255, 255, 0.4), 
+                transparent);
+            animation: shine 2s infinite;
+        }
+        
+        @keyframes shine {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        
+        .progress-ring {
+            transform: rotate(-90deg);
+        }
+        
+        .progress-ring__circle {
+            transition: stroke-dashoffset 1s ease-in-out;
+            stroke-linecap: round;
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(108, 92, 231, 0.4);
+        }
+        
+        .terminal {
+            background-color: rgba(0, 0, 0, 0.7);
+            border-radius: 8px;
+            border: 1px solid var(--secondary);
+            position: relative;
+        }
+        
+        .terminal-header {
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 8px 15px;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .terminal-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        
+        .terminal-content {
+            padding: 15px;
+            font-family: monospace;
+            line-height: 1.5;
+        }
+        
+        .terminal-command {
+            color: var(--secondary);
+        }
+        
+        .terminal-cursor {
+            display: inline-block;
+            width: 10px;
+            height: 20px;
+            background-color: var(--secondary);
+            animation: blink 1s infinite;
+            vertical-align: middle;
+        }
+        
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+        
+        .hud-element {
+            background: rgba(45, 52, 54, 0.8);
+            border: 2px solid var(--primary);
+            border-radius: 8px;
+            padding: 15px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hud-element::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+        }
+        
+        .achievement-badge {
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle at center, var(--primary), #4a3dc0);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 3px solid var(--secondary);
+            box-shadow: 0 0 15px rgba(108, 92, 231, 0.5);
+            position: relative;
+        }
+        
+        .achievement-badge::after {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: -5px;
+            right: -5px;
+            bottom: -5px;
+            border-radius: 50%;
+            border: 2px dashed var(--secondary);
+            animation: spin 10s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .typewriter {
+            overflow: hidden;
+            border-right: 3px solid var(--secondary);
+            white-space: nowrap;
+            margin: 0 auto;
+            letter-spacing: 2px;
+            animation: 
+                typing 3.5s steps(40, end),
+                blink-caret 0.75s step-end infinite;
+        }
+        
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+        
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: var(--secondary) }
+        }
+        
+        .floating {
+            animation: floating 3s ease-in-out infinite;
+        }
+        
+        @keyframes floating {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        .parallax {
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        
+        .pixel-corners {
+            position: relative;
+        }
+        
+        .pixel-corners::before, .pixel-corners::after {
+            content: '';
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border: 2px solid var(--secondary);
+        }
+        
+        .pixel-corners::before {
+            top: -5px;
+            left: -5px;
+            border-right: none;
+            border-bottom: none;
+        }
+        
+        .pixel-corners::after {
+            bottom: -5px;
+            right: -5px;
+            border-left: none;
+            border-top: none;
+        }
+        
+        .level-indicator {
+            position: relative;
+            height: 30px;
+            background-color: rgba(45, 52, 54, 0.7);
+            border-radius: 15px;
+            overflow: hidden;
+        }
+        
+        .level-progress {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 15px;
+            position: relative;
+        }
+        
+        .level-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-weight: bold;
+            text-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <!-- Loading Screen (Removed) -->
+    <div id="loading-screen" class="hidden"></div>
+
+    <!-- Main Content -->
+    <div id="main-content">
+        <!-- Hero Section -->
+        <section class="relative h-screen flex items-center justify-center overflow-hidden">
+            <div class="absolute inset-0 z-0">
+                <div class="absolute top-0 left-0 w-full h-full bg-black opacity-70"></div>
+                <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-transparent to-black opacity-80"></div>
+                <div class="absolute top-0 left-0 w-full h-full">
+                    <div class="absolute top-20 left-20 w-4 h-4 rounded-full bg-purple-500 animate-pulse"></div>
+                    <div class="absolute top-1/3 right-1/4 w-3 h-3 rounded-full bg-teal-400 animate-pulse"></div>
+                    <div class="absolute bottom-1/4 left-1/3 w-5 h-5 rounded-full bg-pink-500 animate-pulse"></div>
+                    <div class="absolute bottom-20 right-20 w-4 h-4 rounded-full bg-purple-500 animate-pulse"></div>
+                </div>
+            </div>
+            
+            <div class="container mx-auto px-6 relative z-10 text-center">
+                <div class="mb-8 floating">
+                    <div class="inline-block p-4 border-4 border-purple-500 rounded-full">
+                        <div class="w-32 h-32 bg-gray-800 rounded-full flex items-center justify-center">
+                            <img src="prasad.jpg" alt="Magendra Prasad" class="w-full h-full rounded-full object-cover">
+                        </div>
+                    </div>
+                </div>
+                
+                <h1 class="text-5xl md:text-6xl font-bold mb-4 glow-text">
+                    <span class="text-purple-500">MAGENDRA</span> 
+                    <span class="text-teal-400">PRASAD</span>
+                </h1>
+                
+                <div class="typewriter text-2xl md:text-3xl text-pink-400 mb-8">
+                    Aspiring Game Developer | Full-Stack Developer
+                </div>
+                
+                <div class="flex justify-center space-x-4 mb-12">
+                    <a href="tel:7418646356" class="hud-element hover:bg-purple-900 transition-all duration-300">
+                        <i class="fas fa-phone-alt mr-2 text-teal-400"></i> 7418646356
+                    </a>
+                    <a href="mailto:magendraprasad84@gmail.com" class="hud-element hover:bg-purple-900 transition-all duration-300">
+                        <i class="fas fa-envelope mr-2 text-teal-400"></i> Email
+                    </a>
+                    <a href="https://www.linkedin.com/in/magendra-prasad-13779b281/" target="_blank" class="hud-element hover:bg-purple-900 transition-all duration-300">
+                        <i class="fab fa-linkedin mr-2 text-teal-400"></i> LinkedIn
+                    </a>
+                </div>
+                
+                <div class="animate-bounce">
+                    <a href="#about" class="text-gray-400 hover:text-teal-400 transition-colors">
+                        <i class="fas fa-chevron-down text-3xl"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="py-20 bg-gray-900 relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-full h-full opacity-10">
+                <div class="absolute top-0 left-0 w-full h-full bg-grid"></div>
+            </div>
+            
+            <div class="container mx-auto px-6 relative">
+                <div class="flex flex-col lg:flex-row items-center">
+                    <div class="lg:w-1/2 mb-12 lg:mb-0 lg:pr-12">
+                        <div class="terminal glow-box">
+                            <div class="terminal-header">
+                                <div class="terminal-dot bg-red-500"></div>
+                                <div class="terminal-dot bg-yellow-500"></div>
+                                <div class="terminal-dot bg-green-500"></div>
+                                <span class="ml-2 text-gray-400 text-sm">about_me.txt</span>
+                            </div>
+                            <div class="terminal-content">
+                                <p class="text-green-400">$ <span class="terminal-command">cat about_me.txt</span></p>
+                                <p class="mt-4">Hello World!</p>
+                                <p>I'm <span class="text-purple-400">Magendra Prasad</span>, an aspiring <span class="text-teal-400">Full-Stack Developer</span> with a passion for game development.</p>
+                                <p class="mt-4">Currently pursuing <span class="text-yellow-400">B.E. in Computer Science</span> at St. Mother Theresa Engineering College, where I've achieved <span class="text-pink-400">first rank</span> with a CGPA of <span class="text-pink-400">9.11</span>.</p>
+                                <p class="mt-4">My journey in tech combines <span class="text-teal-400">creativity</span> with <span class="text-purple-400">technical skills</span>, allowing me to build responsive, user-friendly applications.</p>
+                                <p class="mt-4">When I'm not coding, you can find me singing, creating art, or exploring new technologies.</p>
+                                <p class="text-green-400 mt-4">$ <span class="terminal-cursor"></span></p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="lg:w-1/2">
+                        <h2 class="text-4xl font-bold mb-8 text-purple-400 flex items-center">
+                            <span class="mr-4"><i class="fas fa-user-astronaut"></i></span>
+                            <span>About Me</span>
+                        </h2>
+                        
+                        <div class="hud-element p-8 mb-8">
+                            <h3 class="text-2xl text-teal-400 mb-4">Summary</h3>
+                            <p class="mb-6">I am an aspiring Full-Stack Developer with a strong foundation in web development. Currently, I am pursuing a B.E. in Computer Science at St. Mother Theresa Engineering College, where I have achieved first rank and awards for academic excellence. My interests lie in creating responsive and user-friendly applications, and I am eager to contribute to innovative projects and learn from industry professionals.</p>
+                            
+                            <div class="level-indicator mb-4">
+                                <div class="level-progress" style="width: 85%">
+                                    <div class="level-text">Developer Level: 85</div>
+                                </div>
+                            </div>
+                            
+                            <div class="flex justify-between text-xs text-gray-400">
+                                <span>HTML/CSS</span>
+                                <span>JavaScript</span>
+                                <span>React</span>
+                                <span>Game Dev</span>
+                            </div>
+                        </div>
+                        
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="hud-element p-4 text-center">
+                                <div class="text-4xl text-purple-400 mb-2"><i class="fas fa-graduation-cap"></i></div>
+                                <h4 class="text-xl text-teal-400 mb-1">Education</h4>
+                                <p class="text-sm">B.E. Computer Science</p>
+                            </div>
+                            <div class="hud-element p-4 text-center">
+                                <div class="text-4xl text-purple-400 mb-2"><i class="fas fa-briefcase"></i></div>
+                                <h4 class="text-xl text-teal-400 mb-1">Experience</h4>
+                                <p class="text-sm">2+ Years</p>
+                            </div>
+                            <div class="hud-element p-4 text-center">
+                                <div class="text-4xl text-purple-400 mb-2"><i class="fas fa-project-diagram"></i></div>
+                                <h4 class="text-xl text-teal-400 mb-1">Projects</h4>
+                                <p class="text-sm">5+ Completed</p>
+                            </div>
+                            <div class="hud-element p-4 text-center">
+                                <div class="text-4xl text-purple-400 mb-2"><i class="fas fa-trophy"></i></div>
+                                <h4 class="text-xl text-teal-400 mb-1">Achievements</h4>
+                                <p class="text-sm">Academic Topper</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Experience Section -->
+        <section id="experience" class="py-20 bg-gray-800 relative">
+            <div class="container mx-auto px-6">
+                <h2 class="text-4xl font-bold mb-12 text-center text-purple-400">
+                    <span class="mr-4"><i class="fas fa-briefcase"></i></span>
+                    <span>Experience</span>
+                </h2>
+                
+                <div class="relative">
+                    <!-- Timeline line -->
+                    <div class="absolute left-1/2 h-full w-1 bg-purple-500 transform -translate-x-1/2"></div>
+                    
+                    <!-- Experience Items -->
+                    <div class="mb-16 relative">
+                        <div class="experience-dot absolute left-1/2 top-0 w-6 h-6 rounded-full bg-teal-400 transform -translate-x-1/2 -translate-y-1/2 border-4 border-purple-700"></div>
+                        
+                        <div class="lg:w-1/2 mx-auto lg:mx-0 lg:ml-auto p-6 hud-element card-hover">
+                            <div class="flex justify-between items-start mb-2">
+                                <h3 class="text-2xl text-teal-400">Math Courses Website</h3>
+                                <span class="text-sm text-purple-400 bg-gray-900 px-3 py-1 rounded-full">10/2024 - 12/2024</span>
+                            </div>
+                            <p class="text-sm text-gray-400 mb-2">Front-End Developer</p>
+                            <p class="mb-4">A web application focused on education particularly for mathematics</p>
+                            <ul class="list-disc list-inside text-sm text-gray-300 space-y-1">
+                                <li>Developed a responsive web application for learning math-related problems using HTML, CSS, and JavaScript</li>
+                                <li>Implemented interactive exercises and progress tracking</li>
+                                <li>Optimized for mobile devices and various screen sizes</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-16 relative">
+                        <div class="experience-dot absolute left-1/2 top-0 w-6 h-6 rounded-full bg-teal-400 transform -translate-x-1/2 -translate-y-1/2 border-4 border-purple-700"></div>
+                        
+                        <div class="lg:w-1/2 mx-auto lg:mr-auto lg:ml-0 p-6 hud-element card-hover">
+                            <div class="flex justify-between items-start mb-2">
+                                <h3 class="text-2xl text-teal-400">Toy Shop Using React</h3>
+                                <span class="text-sm text-purple-400 bg-gray-900 px-3 py-1 rounded-full">03/2025 - 05/2025</span>
+                            </div>
+                            <p class="text-sm text-gray-400 mb-2">Front-End Developer</p>
+                            <p class="mb-4">A dynamic website showcasing toy products for online shopping</p>
+                            <ul class="list-disc list-inside text-sm text-gray-300 space-y-1">
+                                <li>Built a dynamic and user-friendly toy shop website using React.js</li>
+                                <li>Implemented features like product listing, filtering, and responsive design</li>
+                                <li>Enhanced user experience with smooth animations and transitions</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Education Section -->
+        <section id="education" class="py-20 bg-gray-900 relative">
+            <div class="container mx-auto px-6">
+                <h2 class="text-4xl font-bold mb-12 text-center text-purple-400">
+                    <span class="mr-4"><i class="fas fa-graduation-cap"></i></span>
+                    <span>Education</span>
+                </h2>
+                
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="hud-element p-8 card-hover">
+                        <div class="flex items-start mb-6">
+                            <div class="mr-6">
+                                <div class="w-16 h-16 bg-purple-900 rounded-full flex items-center justify-center">
+                                    <i class="fas fa-university text-2xl text-teal-400"></i>
+                                </div>
+                            </div>
+                            <div>
+                                <h3 class="text-2xl text-teal-400 mb-1">St. Mother Theresa Engineering College</h3>
+                                <p class="text-gray-400 mb-2">Bachelor of Engineering in Computer Science and Engineering</p>
+                                <p class="text-sm text-purple-400">08/2022 - 05/2026</p>
+                            </div>
+                        </div>
+                        
+                        <div class="pl-22">
+                            <h4 class="text-xl text-purple-400 mb-4 flex items-center">
+                                <i class="fas fa-trophy mr-3"></i>
+                                Key Achievements
+                            </h4>
+                            
+                            <div class="mb-6">
+                                <div class="flex items-center mb-4">
+                                    <div class="achievement-badge mr-4">
+                                        <i class="fas fa-medal text-2xl text-yellow-400"></i>
+                                    </div>
+                                    <div>
+                                        <h5 class="text-lg text-teal-400">Academic Top Award</h5>
+                                        <p class="text-gray-400">Achieved First Rank in my Bachelor's program with a CGPA of 9.11 and received the Academic Topper Award.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="hud-element p-8 card-hover">
+                        <h3 class="text-2xl text-teal-400 mb-6 flex items-center">
+                            <i class="fas fa-laptop-code mr-3"></i>
+                            <span>Online Learning</span>
+                        </h3>
+                        
+                        <div class="space-y-6">
+                            <div class="flex items-start">
+                                <div class="mr-4 mt-1">
+                                    <i class="fas fa-check-circle text-purple-400"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-lg text-purple-400">Web Development Bootcamp</h4>
+                                    <p class="text-gray-400 text-sm">Completed intensive training in modern web technologies</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <div class="mr-4 mt-1">
+                                    <i class="fas fa-check-circle text-purple-400"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-lg text-purple-400">Game Development Courses</h4>
+                                    <p class="text-gray-400 text-sm">Learned Unity, Blender, and game design principles</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <div class="mr-4 mt-1">
+                                    <i class="fas fa-check-circle text-purple-400"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-lg text-purple-400">React Specialization</h4>
+                                    <p class="text-gray-400 text-sm">Mastered React.js and modern frontend development</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Skills Section -->
+        <section id="skills" class="py-20 bg-gray-800 relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-full h-full opacity-10">
+                <div class="absolute top-0 left-0 w-full h-full bg-grid"></div>
+            </div>
+            
+            <div class="container mx-auto px-6 relative">
+                <h2 class="text-4xl font-bold mb-12 text-center text-purple-400">
+                    <span class="mr-4"><i class="fas fa-code"></i></span>
+                    <span>Skills & Abilities</span>
+                </h2>
+                
+                <div class="grid md:grid-cols-2 gap-8 mb-12">
+                    <div class="hud-element p-8">
+                        <h3 class="text-2xl text-teal-400 mb-6">Technical Skills</h3>
+                        
+                        <div class="space-y-6">
+                            <div>
+                                <div class="flex justify-between mb-2">
+                                    <span class="text-purple-400">HTML/CSS</span>
+                                    <span class="text-gray-400">90%</span>
+                                </div>
+                                <div class="skill-bar" style="width: 90%"></div>
+                            </div>
+                            
+                            <div>
+                                <div class="flex justify-between mb-2">
+                                    <span class="text-purple-400">JavaScript</span>
+                                    <span class="text-gray-400">85%</span>
+                                </div>
+                                <div class="skill-bar" style="width: 85%"></div>
+                            </div>
+                            
+                            <div>
+                                <div class="flex justify-between mb-2">
+                                    <span class="text-purple-400">React</span>
+                                    <span class="text-gray-400">80%</span>
+                                </div>
+                                <div class="skill-bar" style="width: 80%"></div>
+                            </div>
+                            
+                            <div>
+                                <div class="flex justify-between mb-2">
+                                    <span class="text-purple-400">Node.js</span>
+                                    <span class="text-gray-400">75%</span>
+                                </div>
+                                <div class="skill-bar" style="width: 75%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="hud-element p-8">
+                        <h3 class="text-2xl text-teal-400 mb-6">Game Development Skills</h3>
+                        
+                        <div class="space-y-6">
+                            <div>
+                                <div class="flex justify-between mb-2">
+                                    <span class="text-purple-400">Unity</span>
+                                    <span class="text-gray-400">70%</span>
+                                </div>
+                                <div class="skill-bar" style="width: 70%"></div>
+                            </div>
+                            
+                            <div>
+                                <div class="flex justify-between mb-2">
+                                    <span class="text-purple-400">C#</span>
+                                    <span class="text-gray-400">75%</span>
+                                </div>
+                                <div class="skill-bar" style="width: 75%"></div>
+                            </div>
+                            
+                            <div>
+                                <div class="flex justify-between mb-2">
+                                    <span class="text-purple-400">Blender</span>
+                                    <span class="text-gray-400">65%</span>
+                                </div>
+                                <div class="skill-bar" style="width: 65%"></div>
+                            </div>
+                            
+                            <div>
+                                <div class="flex justify-between mb-2">
+                                    <span class="text-purple-400">Game Design</span>
+                                    <span class="text-gray-400">80%</span>
+                                </div>
+                                <div class="skill-bar" style="width: 80%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="py-20 bg-gray-900 relative">
+            <div class="container mx-auto px-6">
+                <h2 class="text-4xl font-bold mb-12 text-center text-purple-400">
+                    <span class="mr-4"><i class="fas fa-envelope"></i></span>
+                    <span>Contact Me</span>
+                </h2>
+                
+                <div class="max-w-3xl mx-auto">
+                    <div class="hud-element p-8 mb-8">
+                        <h3 class="text-2xl text-teal-400 mb-6">Get in Touch</h3>
+                        
+                        <form class="space-y-6">
+                            <div class="grid md:grid-cols-2 gap-6">
+                                <div>
+                                    <label for="name" class="block text-purple-400 mb-2">Name</label>
+                                    <input type="text" id="name" class="w-full bg-gray-800 border border-purple-500 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-500">
+                                </div>
+                                <div>
+                                    <label for="email" class="block text-purple-400 mb-2">Email</label>
+                                    <input type="email" id="email" class="w-full bg-gray-800 border border-purple-500 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-500">
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <label for="subject" class="block text-purple-400 mb-2">Subject</label>
+                                <input type="text" id="subject" class="w-full bg-gray-800 border border-purple-500 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-500">
+                            </div>
+                            
+                            <div>
+                                <label for="message" class="block text-purple-400 mb-2">Message</label>
+                                <textarea id="message" rows="5" class="w-full bg-gray-800 border border-purple-500 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-purple-500"></textarea>
+                            </div>
+                            
+                            <button type="submit" class="w-full bg-gradient-to-r from-purple-500 to-teal-500 text-white font-bold py-3 px-6 rounded-lg hover:opacity-90 transition-opacity">
+                                Send Message
+                            </button>
+                        </form>
+                    </div>
+                    
+                    <div class="grid md:grid-cols-3 gap-4">
+                        <a href="tel:7418646356" class="hud-element p-4 text-center hover:bg-purple-900 transition-all">
+                            <i class="fas fa-phone-alt text-2xl text-teal-400 mb-2"></i>
+                            <h4 class="text-lg text-purple-400">Phone</h4>
+                            <p class="text-sm">7418646356</p>
+                        </a>
+                        <a href="mailto:magendraprasad84@gmail.com" class="hud-element p-4 text-center hover:bg-purple-900 transition-all">
+                            <i class="fas fa-envelope text-2xl text-teal-400 mb-2"></i>
+                            <h4 class="text-lg text-purple-400">Email</h4>
+                            <p class="text-sm">magendraprasad84@gmail.com</p>
+                        </a>
+                        <a href="https://www.linkedin.com/in/magendra-prasad-13779b281/" target="_blank" class="hud-element p-4 text-center hover:bg-purple-900 transition-all">
+                            <i class="fab fa-linkedin text-2xl text-teal-400 mb-2"></i>
+                            <h4 class="text-lg text-purple-400">LinkedIn</h4>
+                            <p class="text-sm">Magendra Prasad</p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="py-8 bg-gray-800 text-center">
+            <div class="container mx-auto px-6">
+                <div class="flex justify-center space-x-6 mb-6">
+                    <a href="https://github.com/magendraprasad" target="_blank" class="text-gray-400 hover:text-teal-400 transition-colors text-2xl">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="https://www.linkedin.com/in/magendra-prasad-13779b281/" target="_blank" class="text-gray-400 hover:text-teal-400 transition-colors text-2xl">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                    <a href="https://twitter.com/magendraprasad" target="_blank" class="text-gray-400 hover:text-teal-400 transition-colors text-2xl">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                </div>
+                <p class="text-gray-400 text-sm">&copy; 2024 Magendra Prasad. All rights reserved.</p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Firebase SDKs -->
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyB45iiDX05LcZ-brtHAosGBUoj64oZOVh4",
+            authDomain: "my-portfolio-2feba.firebaseapp.com",
+            projectId: "my-portfolio-2feba",
+            storageBucket: "my-portfolio-2feba.firebasestorage.app",
+            messagingSenderId: "296122162987",
+            appId: "1:296122162987:web:9812d262691e7942d82f6e"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // Contact form submission handler
+        document.addEventListener('DOMContentLoaded', function() {
+            const contactForm = document.querySelector('#contact form');
+            const popup = document.getElementById('success-popup');
+            const popupClose = document.getElementById('popup-close');
+
+            contactForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+
+                const name = document.getElementById('name').value.trim();
+                const email = document.getElementById('email').value.trim();
+                const subject = document.getElementById('subject').value.trim();
+                const message = document.getElementById('message').value.trim();
+
+                // Basic validation
+                if (!name || !email || !subject || !message) {
+                    alert('Please fill in all fields.');
+                    return;
+                }
+
+                // Email validation
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(email)) {
+                    alert('Please enter a valid email address.');
+                    return;
+                }
+
+                try {
+                    // Add document to Firestore
+                    await addDoc(collection(db, "contacts"), {
+                        name: name,
+                        email: email,
+                        subject: subject,
+                        message: message,
+                        timestamp: new Date()
+                    });
+
+                    // Clear form
+                    contactForm.reset();
+
+                    // Show success popup
+                    popup.classList.remove('hidden');
+                    popup.classList.add('flex');
+
+                } catch (error) {
+                    console.error("Error adding document: ", error);
+                    alert('An error occurred while sending your message. Please try again.');
+                }
+            });
+
+            // Close popup
+            popupClose.addEventListener('click', function() {
+                popup.classList.add('hidden');
+                popup.classList.remove('flex');
+            });
+
+            // Close popup when clicking outside
+            popup.addEventListener('click', function(e) {
+                if (e.target === popup) {
+                    popup.classList.add('hidden');
+                    popup.classList.remove('flex');
+                }
+            });
+        });
+    </script>
+
+    <!-- Success Popup -->
+    <div id="success-popup" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+        <div class="hud-element p-8 max-w-md mx-4 text-center relative">
+            <div class="absolute -top-4 -left-4 w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center">
+                <i class="fas fa-check text-white"></i>
+            </div>
+            <div class="achievement-badge mx-auto mb-6">
+                <i class="fas fa-trophy text-3xl text-yellow-400"></i>
+            </div>
+            <h3 class="text-2xl text-teal-400 mb-4 glow-text">Mission Accomplished!</h3>
+            <p class="text-purple-400 mb-6">Message sent successfully! Your contact has been logged in the database.</p>
+            <button id="popup-close" class="bg-gradient-to-r from-purple-500 to-teal-500 text-white font-bold py-2 px-6 rounded-lg hover:opacity-90 transition-opacity">
+                Continue Quest
+            </button>
+        </div>
+    </div>
+</body>
+</html>
